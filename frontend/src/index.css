@@ -1,0 +1,362 @@
+@import "tailwindcss";
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --border: #e2e5ea;
+  --text: #1a1d23;
+  --text-muted: #6b7280;
+  --accent: #2f6f4f;
+  --accent-hover: #255a40;
+  --threshold: #d97706;
+  --threshold-bg: #fff7ed;
+  --trend: #2563eb;
+  --trend-bg: #eff6ff;
+  --danger: #dc2626;
+  --danger-bg: #fef2f2;
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 8px rgba(0, 0, 0, 0.04);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Layout */
+.app-shell {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 var(--space-3) var(--space-5);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) 0;
+  margin-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.header h1 {
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+}
+
+.section {
+  margin-bottom: var(--space-4);
+}
+
+.section-title {
+  font-size: 15px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-2);
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space-3);
+}
+
+/* Buttons */
+.btn {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--bg);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  text-decoration: underline;
+}
+
+/* Forms */
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Auth page */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+.auth-card h1 {
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: var(--space-1);
+}
+
+.auth-card h2 {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: var(--space-3);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Insight cards */
+.insight-card {
+  border-left: 4px solid var(--border);
+  border-radius: 8px;
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.insight-card.threshold {
+  border-left-color: var(--threshold);
+  background: var(--threshold-bg);
+}
+
+.insight-card.trend {
+  border-left-color: var(--trend);
+  background: var(--trend-bg);
+}
+
+.insight-badge {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+/* Tables */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.data-table th {
+  text-align: left;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.value-out-of-range {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* States */
+.empty-state {
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: var(--space-3) 0;
+  text-align: center;
+}
+
+.loading-state {
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: var(--space-4) 0;
+  text-align: center;
+}
+
+.error-banner {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin-bottom: var(--space-3);
+}
+
+.success-text {
+  color: var(--accent);
+  font-size: 14px;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar-logo {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.navbar-links {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.navbar-links a.btn {
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Home page */
+.home-hero {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-3);
+  text-align: center;
+}
+
+.home-title {
+  font-size: 36px;
+  line-height: 1.2;
+  margin-bottom: var(--space-3);
+}
+
+.home-subtitle {
+  font-size: 16px;
+  color: var(--text-muted);
+  max-width: 520px;
+  margin: 0 auto var(--space-4);
+}
+
+.home-cta {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 12px 28px;
+}
+
+.home-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  text-align: left;
+}
+
+.home-feature h3 {
+  font-size: 15px;
+  margin-bottom: var(--space-1);
+  color: var(--accent);
+}
+
+.home-feature p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+@media (max-width: 600px) {
+  .home-features {
+    grid-template-columns: 1fr;
+  }
+}
