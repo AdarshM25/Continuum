@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Patient = require("../models/Patient");
+const requireAuth = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -73,6 +74,23 @@ router.post("/login", async (req, res) => {
 
     const token = issueToken(patient._id);
     res.json({ token, patientId: patient._id });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /auth/me
+ * Requires: Authorization: Bearer <token>
+ * The rest of /auth is deliberately public (signup/login need no token to
+ * call) — this one route needs auth, applied directly here rather than on
+ * the whole router.
+ */
+router.get("/me", requireAuth, async (req, res) => {
+  try {
+    const patient = await Patient.findById(req.patientId).select("name email");
+    if (!patient) return res.status(404).json({ error: "Not found" });
+    res.json({ name: patient.name, email: patient.email });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

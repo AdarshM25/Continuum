@@ -1,4 +1,3 @@
-
 const API_BASE = "http://localhost:4000";
 const TOKEN_KEY = "continuum_token";
 
@@ -101,4 +100,8 @@ export function getReportStatus(reportId) {
 
 export function getReports() {
   return request("/reports");
+}
+
+export function getProfile() {
+  return request("/auth/me");
 }

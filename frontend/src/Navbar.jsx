@@ -24,7 +24,7 @@ export default function Navbar() {
               <Link to="/dashboard" className="text-sm text-gray-600 hover:text-gray-900 transition">
                 Dashboard
               </Link>
-              <Link to="/dashboard" className="text-sm text-gray-600 hover:text-gray-900 transition">
+              <Link to="/lab-reports" className="text-sm text-gray-600 hover:text-gray-900 transition">
                 Upload a report
               </Link>
             </>

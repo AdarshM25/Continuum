@@ -12,7 +12,7 @@ function groupByType(measurements) {
   return grouped;
 }
 
-export default function Dashboard() {
+export default function LabReports() {
   const [measurements, setMeasurements] = useState([]);
   const [insights, setInsights] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,12 +43,6 @@ export default function Dashboard() {
     setRefreshKey((k) => k + 1);
   }
 
-  // Everything below is scoped to whichever report is selected — nothing
-  // merges across reports by default. A measurement belongs to the report
-  // that produced it (m.reportId). An insight belongs to a report if ANY
-  // of its source measurements came from that report — a trend insight
-  // compares two readings, which can come from two different reports, so
-  // it can legitimately show up under both.
   const reportMeasurements = useMemo(
     () => measurements.filter((m) => m.reportId === selectedReportId),
     [measurements, selectedReportId]
@@ -64,7 +58,9 @@ export default function Dashboard() {
   const grouped = groupByType(reportMeasurements);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-8 py-10">
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Lab Reports</h1>
+
       <UploadReport onUploaded={handleUploaded} />
 
       <ReportHistory
