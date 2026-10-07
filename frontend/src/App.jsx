@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import VoiceAssistant from './components/VoiceAssistant';
+import { useTranslation } from 'react-i18next';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import PublicLayout from "./PublicLayout";
 import AppLayout from "./AppLayout";
@@ -9,6 +11,7 @@ import LabReports from "./LabReports";
 import AIInsights from "./AIInsights";
 import HealthTrends from "./HealthTrends";
 import { isLoggedIn } from "./api";
+import './App.css';
 
 function RequireAuth({ children }) {
   return isLoggedIn() ? children : <Navigate to="/login" replace />;

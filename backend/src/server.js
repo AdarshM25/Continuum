@@ -1,3 +1,6 @@
+const dns = require("dns");
+dns.setDefaultResultOrder("ipv4first");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 require("dotenv").config();
 const express = require("express");
@@ -11,17 +14,13 @@ const requireAuth = require("./middleware/auth");
 
 const app = express();
 
-// Browsers block a page on one origin (localhost:5173, the frontend) from
-// calling an API on another (localhost:4000, this server) unless the
-// server explicitly allows it. This is that allowance — scoped to just the
-// frontend's dev server address, not "allow everyone."
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 
-// Public — no token required to sign up or log in.
+// Public routes
 app.use("/auth", authRouter);
 
-// Everything below this line requires a valid Bearer token.
+// Protected routes (require token)
 app.use("/reports", requireAuth, reportsRouter);
 app.use("/measurements", requireAuth, measurementsRouter);
 app.use("/insights", requireAuth, insightsRouter);

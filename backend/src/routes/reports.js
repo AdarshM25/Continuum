@@ -3,7 +3,9 @@ const express = require("express");
 const Report = require("../models/Report");
 const upload = require("../middleware/upload");
 const { runExtraction } = require("../services/extraction/extractReport");
-
+const fs = require("fs");
+const Measurement = require("../models/Measurement");
+const Insight = require("../models/Insight");
 const router = express.Router();
 
 /**
@@ -92,4 +94,36 @@ router.get("/:id/status", async (req, res) => {
   }
 });
 
+/**
+ * DELETE /reports/:id
+ * Removes the report, its uploaded file, its measurements, and any
+ * insights that were built from those measurements.
+ */
+router.delete("/:id", async (req, res) => {
+  try {
+    const report = await Report.findById(req.params.id);
+    if (!report) return res.status(404).json({ error: "Report not found" });
+    if (String(report.patientId) !== String(req.patientId)) {
+      return res.status(403).json({ error: "You do not have access to this report" });
+    }
+
+    const measurements = await Measurement.find({ reportId: report._id }).select("_id");
+    const measurementIds = measurements.map((m) => m._id);
+
+    await Insight.deleteMany({
+      patientId: req.patientId,
+      sourceMeasurements: { $in: measurementIds },
+    });
+    await Measurement.deleteMany({ reportId: report._id });
+
+    fs.unlink(report.fileUrl, (err) => {
+      if (err) console.log(`[reports] could not delete file ${report.fileUrl}: ${err.message}`);
+    });
+
+    await report.deleteOne();
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 module.exports = router;

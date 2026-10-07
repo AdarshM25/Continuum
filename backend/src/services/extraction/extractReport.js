@@ -2,7 +2,7 @@ const Report = require("../../models/Report");
 const Measurement = require("../../models/Measurement");
 const { extractMeasurementsFromFile } = require("./geminiClient");
 const { normalizeType } = require("./typeNormalizer");
-
+const { isPlausible } = require("./plausibility");
 /**
  * Strips accidental markdown fences and parses the model's JSON response.
  * Gemini is instructed not to add fences, but models drift — this is a
@@ -56,7 +56,7 @@ async function runExtraction(reportId) {
       console.log(`[extraction] ${rejected.length} candidate(s) failed validation:`, JSON.stringify(rejected, null, 2));
     }
 
-    const validRows = candidates
+    const mappedRows = candidates
       .filter(isValidCandidate)
       .map((c) => {
         const parsedDate = typeof c.takenAt === "string" ? new Date(c.takenAt) : null;
@@ -82,6 +82,16 @@ async function runExtraction(reportId) {
           takenAt: hasValidDate ? parsedDate : report.uploadedAt,
         };
       });
+
+     const validRows = mappedRows.filter((row) => {
+      const ok = isPlausible(row.type, row.value, row.unit);
+      if (!ok) {
+        console.log(
+          `[extraction] dropped implausible value: ${row.type} = ${row.value} ${row.unit}`
+        );
+      }
+      return ok;
+    });
 
     if (validRows.length > 0) {
       await Measurement.insertMany(validRows);
